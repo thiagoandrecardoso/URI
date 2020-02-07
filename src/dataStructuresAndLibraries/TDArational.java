@@ -52,20 +52,45 @@ public class TDArational {
         return true;
     }
 
+    public static int mdc(int dividendo, int divisor) {
+        if (dividendo % divisor == 0) {
+            return divisor;
+        } else {
+            return mdc(divisor, (dividendo % divisor));
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = 1; //sc.nextInt();
         String expressao = sc.nextLine();
         if (verificaNumero(N) && verificaExpressao(expressao)) {
+            int numerador = 0;
+            int denominador = 0;
             int n1 = valores[0];
             int d1 = valores[1];
             int n2 = valores[2];
             int d2 = valores[3];
             if (expressao.charAt(6) == '+') {
 //                Sum: (N1*D2 + N2*D1) / (D1*D2)
-                int numerador = (n1 * d2 + n2 * d1);
-                int denominador = (d1 * d2);
-                System.out.println(numerador + "/" + denominador);
+                numerador = (n1 * d2 + n2 * d1);
+                denominador = (d1 * d2);
+            } else if (expressao.charAt(6) == '-') {
+//                Subtraction: (N1*D2 - N2*D1) / (D1*D2)
+                numerador = (n1 * d2 - n2 * d1);
+                denominador = (d1 * d2);
+            }
+            int mdc_valor = mdc(numerador, denominador);
+            if (mdc_valor == 1) {
+                System.out.println(numerador + "/" + denominador + " = " + numerador + "/" + denominador);
+            } else {
+                int numerador_simpl = numerador / mdc_valor;
+                int denominador_simpl = denominador / mdc_valor;
+                if (denominador_simpl < 0) {
+                    denominador_simpl *= -1;
+                    numerador_simpl *= -1;
+                }
+                System.out.println(numerador + "/" + denominador + " = " + numerador_simpl + "/" + denominador_simpl);
             }
         }
     }
