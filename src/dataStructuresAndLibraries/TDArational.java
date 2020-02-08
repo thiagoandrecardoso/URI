@@ -5,42 +5,44 @@ import java.util.Scanner;
 public class TDArational {
 
     public static int valores[] = new int[4];
+    public static String operador;
 
     public static boolean verificaExpressao(String expressao) {
 
-        String operadores = "+-/*";
+        String arrayExpressao[] = expressao.split(" ");
+
         int indice = 0;
 
-        for (int i = 0; i < expressao.length(); i += 4) {
-            if (!Character.isDigit(expressao.charAt(i))) {
-                return false;
-            } else {
-                int x = (int) expressao.charAt(i) - 48;
-                if (x < 1 || x > 1000) {
+        for (int i = 0; i < arrayExpressao.length; i += 2) {
+            try {
+                int numero = Integer.parseInt(arrayExpressao[i]);
+                if (numero < 1 || numero > 1000) {
+                    System.out.println("false 1");
                     return false;
                 } else {
-                    valores[indice] = x;
+                    valores[indice] = numero;
                     indice++;
                 }
-            }
-        }
-
-        for (int i = 1; i < expressao.length(); i += 2) {
-            if (!Character.isSpaceChar(expressao.charAt(i))) {
+            } catch (NumberFormatException e) {
                 return false;
             }
         }
 
-        if (!(expressao.charAt(6) == '+' || expressao.charAt(6) == '-' || expressao.charAt(6) == '*'
-                || expressao.charAt(6) == '/')) {
+        if (!(arrayExpressao[3].equals("+") || arrayExpressao[3].equals("-") || arrayExpressao[3].equals("+")
+                || arrayExpressao[3].equals("+"))) {
+            System.out.println(arrayExpressao[3]);
+            System.out.println("false 2");
             return false;
         }
 
-        if (!(expressao.charAt(2) == '/' && expressao.charAt(10) == '/')) {
+        if (!(arrayExpressao[1].equals("/") && arrayExpressao[5].equals("/"))) {
+            System.out.println("false 3");
             return false;
         }
 
-        if (expressao.length() != 13) return false;
+        if (arrayExpressao.length != 7) return false;
+
+        operador = arrayExpressao[3];
 
         return true;
     }
@@ -64,43 +66,43 @@ public class TDArational {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
         String lixo = sc.nextLine();
-        String expressao = sc.nextLine();
-        if (verificaNumero(N) && verificaExpressao(expressao)) {
+
+        if (verificaNumero(N)) {
             for (int i = 0; i < N; i++) {
-                int numerador = 0;
-                int denominador = 0;
-                int n1 = valores[0];
-                int d1 = valores[1];
-                int n2 = valores[2];
-                int d2 = valores[3];
-                if (expressao.charAt(6) == '+') {
-//                Sum: (N1*D2 + N2*D1) / (D1*D2)
-                    numerador = (n1 * d2 + n2 * d1);
-                    denominador = (d1 * d2);
-                } else if (expressao.charAt(6) == '-') {
-//                Subtraction: (N1*D2 - N2*D1) / (D1*D2)
-                    numerador = (n1 * d2 - n2 * d1);
-                    denominador = (d1 * d2);
-                } else if (expressao.charAt(6) == '*') {
-//                Multiplication: (N1*N2) / (D1*D2)
-                    numerador = (n1 * n2);
-                    denominador = (d1 * d2);
-                } else if (expressao.charAt(6) == '/') {
-//                Division: (N1/D1) / (N2/D2), that means (N1*D2)/(N2*D1)
-                    numerador = (n1 * d2);
-                    denominador = (n2 * d1);
-                }
-                int mdc_valor = mdc(numerador, denominador);
-                if (mdc_valor == 1) {
-                    System.out.println(numerador + "/" + denominador + " = " + numerador + "/" + denominador);
-                } else {
-                    int numerador_simpl = numerador / mdc_valor;
-                    int denominador_simpl = denominador / mdc_valor;
-                    if (denominador_simpl < 0) {
-                        denominador_simpl *= -1;
-                        numerador_simpl *= -1;
+                String expressao = sc.nextLine();
+                if (verificaExpressao(expressao)) {
+                    int numerador = 0;
+                    int denominador = 0;
+                    int n1 = valores[0];
+                    int d1 = valores[1];
+                    int n2 = valores[2];
+                    int d2 = valores[3];
+
+                    if (operador.equals("+")) {
+                        numerador = (n1 * d2 + n2 * d1);
+                        denominador = (d1 * d2);
+                    } else if (operador.equals("-")) {
+                        numerador = (n1 * d2 - n2 * d1);
+                        denominador = (d1 * d2);
+                    } else if (operador.equals("*")) {
+                        numerador = (n1 * n2);
+                        denominador = (d1 * d2);
+                    } else if (operador.equals("/")) {
+                        numerador = (n1 * d2);
+                        denominador = (n2 * d1);
                     }
-                    System.out.println(numerador + "/" + denominador + " = " + numerador_simpl + "/" + denominador_simpl);
+                    int mdc_valor = mdc(numerador, denominador);
+                    if (mdc_valor == 1) {
+                        System.out.println(numerador + "/" + denominador + " = " + numerador + "/" + denominador);
+                    } else {
+                        int numerador_simpl = numerador / mdc_valor;
+                        int denominador_simpl = denominador / mdc_valor;
+                        if (denominador_simpl < 0) {
+                            denominador_simpl *= -1;
+                            numerador_simpl *= -1;
+                        }
+                        System.out.println(numerador + "/" + denominador + " = " + numerador_simpl + "/" + denominador_simpl);
+                    }
                 }
             }
         }
