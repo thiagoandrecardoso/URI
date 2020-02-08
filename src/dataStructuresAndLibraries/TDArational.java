@@ -90,7 +90,6 @@ public class TDArational {
                     int mdc_valor = mdc(numerador, denominador);
                     if (mdc_valor == 1) {
                         sb.append(numerador + "/" + denominador + " = " + numerador + "/" + denominador + "\n");
-//                        System.out.println(numerador + "/" + denominador + " = " + numerador + "/" + denominador);
                     } else {
                         int numerador_simpl = numerador / mdc_valor;
                         int denominador_simpl = denominador / mdc_valor;
@@ -99,7 +98,6 @@ public class TDArational {
                             numerador_simpl *= -1;
                         }
                         sb.append(numerador + "/" + denominador + " = " + numerador_simpl + "/" + denominador_simpl + "\n");
-//                        System.out.println(numerador + "/" + denominador + " = " + numerador_simpl + "/" + denominador_simpl);
                     }
                 }
             }
