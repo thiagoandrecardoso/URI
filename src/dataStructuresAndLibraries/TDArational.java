@@ -17,7 +17,6 @@ public class TDArational {
             try {
                 int numero = Integer.parseInt(arrayExpressao[i]);
                 if (numero < 1 || numero > 1000) {
-                    System.out.println("false 1");
                     return false;
                 } else {
                     valores[indice] = numero;
@@ -28,15 +27,12 @@ public class TDArational {
             }
         }
 
-        if (!(arrayExpressao[3].equals("+") || arrayExpressao[3].equals("-") || arrayExpressao[3].equals("+")
-                || arrayExpressao[3].equals("+"))) {
-            System.out.println(arrayExpressao[3]);
-            System.out.println("false 2");
+        if (!(arrayExpressao[3].equals("+") || arrayExpressao[3].equals("-") || arrayExpressao[3].equals("*")
+                || arrayExpressao[3].equals("/"))) {
             return false;
         }
 
         if (!(arrayExpressao[1].equals("/") && arrayExpressao[5].equals("/"))) {
-            System.out.println("false 3");
             return false;
         }
 
@@ -66,7 +62,7 @@ public class TDArational {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
         String lixo = sc.nextLine();
-
+        StringBuilder sb = new StringBuilder("");
         if (verificaNumero(N)) {
             for (int i = 0; i < N; i++) {
                 String expressao = sc.nextLine();
@@ -93,7 +89,8 @@ public class TDArational {
                     }
                     int mdc_valor = mdc(numerador, denominador);
                     if (mdc_valor == 1) {
-                        System.out.println(numerador + "/" + denominador + " = " + numerador + "/" + denominador);
+                        sb.append(numerador + "/" + denominador + " = " + numerador + "/" + denominador + "\n");
+//                        System.out.println(numerador + "/" + denominador + " = " + numerador + "/" + denominador);
                     } else {
                         int numerador_simpl = numerador / mdc_valor;
                         int denominador_simpl = denominador / mdc_valor;
@@ -101,10 +98,13 @@ public class TDArational {
                             denominador_simpl *= -1;
                             numerador_simpl *= -1;
                         }
-                        System.out.println(numerador + "/" + denominador + " = " + numerador_simpl + "/" + denominador_simpl);
+                        sb.append(numerador + "/" + denominador + " = " + numerador_simpl + "/" + denominador_simpl + "\n");
+//                        System.out.println(numerador + "/" + denominador + " = " + numerador_simpl + "/" + denominador_simpl);
                     }
                 }
             }
         }
+        sb.deleteCharAt(sb.lastIndexOf("\n"));
+        System.out.println(sb.toString());
     }
 }
