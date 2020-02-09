@@ -7,6 +7,7 @@ public class TDArational {
     public static int valores[] = new int[4];
     public static String operador;
 
+
     public static boolean verificaExpressao(String expressao) {
 
         String arrayExpressao[] = expressao.split(" ");
@@ -59,6 +60,7 @@ public class TDArational {
     }
 
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
         String lixo = sc.nextLine();
