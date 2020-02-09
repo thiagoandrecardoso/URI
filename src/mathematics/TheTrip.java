@@ -20,7 +20,7 @@ public class TheTrip {
             String lixo = sc.nextLine();
             listValores = new ArrayList<Double>();
 
-            if (verificaNumeroDeViagens(numeroDeAlunos)) {
+            if (verificaNumeroDeAlunos(numeroDeAlunos)) {
                 for (int i = 0; i < numeroDeAlunos; i++) {
                     Double valor = sc.nextDouble();
                     if (verificaValor(valor)) {
@@ -42,7 +42,7 @@ public class TheTrip {
         System.out.println(sb.toString());
     }
 
-    public static boolean verificaNumeroDeViagens(int numero) {
+    public static boolean verificaNumeroDeAlunos(int numero) {
         if (numero < 1 || numero > 1000) {
             return false;
         }
