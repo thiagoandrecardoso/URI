@@ -5,13 +5,14 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
 
+
 public class TheTrip {
 
     public static List<Double> listValores;
     public static List<Double> listDiferencaEntreValores = new ArrayList<Double>();
 
     public static void main(String[] args) {
-        Locale.setDefault(Locale.US);
+//        Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
         int numeroDeAlunos = -1;
 
@@ -25,21 +26,31 @@ public class TheTrip {
                     Double valor = sc.nextDouble();
                     if (verificaValor(valor)) {
                         listValores.add(valor);
+                    } else {
+                        System.exit(0);
                     }
                 }
                 if (numeroDeAlunos != 0)
                     listDiferencaEntreValores.add(calculoDaDiferenca(listValores, media(listValores)));
+            } else if (numeroDeAlunos != 0) {
+                System.exit(0);
             }
         }
-        StringBuilder sb = new StringBuilder("");
-        for (Double valor : listDiferencaEntreValores) {
-            DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-            decimalFormat.setRoundingMode(RoundingMode.DOWN);
-            sb.append("$" + decimalFormat.format(valor) + "\n");
-            sb.deleteCharAt(sb.indexOf(","));
+
+        if (numeroDeAlunos == 0 && listDiferencaEntreValores.size() > 0) {
+            StringBuilder sb = new StringBuilder("");
+            for (Double valor : listDiferencaEntreValores) {
+                DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+                decimalFormat.setRoundingMode(RoundingMode.DOWN);
+                sb.append("$" + decimalFormat.format(valor) + "\n");
+                String aux = "$" + decimalFormat.format(valor) + "\n";
+                if (aux.contains(",")) {
+                    sb.deleteCharAt(sb.indexOf(","));
+                }
+            }
+            sb.deleteCharAt(sb.lastIndexOf("\n"));
+            System.out.println(sb.toString());
         }
-        sb.deleteCharAt(sb.lastIndexOf("\n"));
-        System.out.println(sb.toString());
     }
 
     public static boolean verificaNumeroDeAlunos(int numero) {
